@@ -11,6 +11,7 @@ function Paddle(x, y, width, height) {
   this.y = y;
   this.height = height;
   this.width = width;
+  this.score = 0;
   this.speed = 15;
 }
 
@@ -25,18 +26,31 @@ Paddle.prototype.render = function() {
   c.fillRect(this.x, this.y, this.width, this.height);
 };
 
-// the ball //
+// the ball
 function Ball(x, y) {
   this.x = x;
   this.y = y;
   this.radius = 10;
-  this.x_speed = -2;
+  this.x_speed = 2;
   this.y_speed = -2;
-};
+
+  this.resetPostion = function() {
+    this.x = canvas.width / 2;
+    this.y = canvas.height / 2;
+  };
+
+  this.resetSpeed = function() {
+    this.x_speed = 2;
+    this.y_speed = -2;
+  }
+
+  this.reset = function() {
+    this.resetPostion();
+    this.resetSpeed();
+  };
+}
 
 Ball.prototype.move = function() {
-
-
   this.x += this.x_speed;
   this.y += this.y_speed;
  
@@ -64,7 +78,6 @@ Ball.prototype.move = function() {
   } else if (computerX < (computer.width / 2 + ball.radius) && computerY < (computer.height / 2 + ball.radius)) { 
     this.x_speed = -this.x_speed;
   }
-
 };
 
 Ball.prototype.render = function() {
@@ -74,8 +87,44 @@ Ball.prototype.render = function() {
   c.fill();
 };
 
+Ball.prototype.update = function(player, computer) {
+  // trying to reset the ball
+  if (this.x < 0) {
+    this.reset();
+  }
+  else if (this.x > canvas.width) {
+    this.reset();
+  }
+
+  // if(rightScored || leftScored) {
+  //   if (leftScored) {
+  //     rightPaddle.score++;
+  //   }
+  //   if (rightScored) {
+  //     rightPaddle.score++;
+  //   }
+  //   this.reset();
+  // }
+};
+
 var player = new Paddle(50, 100, 10, 100);
 var computer = new Paddle(550, 110, 10, 100);
+
+computer.update = function(ball) {
+  var ball_y_position = ball.y;
+  var diff = -((computer.y + (computer.height / 2)) - ball_y_position);
+
+  if (diff < 0) {
+      diff = -2;
+  }
+  else if (diff > 0) {
+      diff = 2;
+  }
+  // sets the difficulty, eventually want to randomize
+  computer.move(diff * 0.5);
+};
+// var computer = new Computer();
+
 var ball = new Ball(canvas.width / 2, canvas.height / 2);
 
 // press key event listener
@@ -102,6 +151,7 @@ var step = function() {
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
 
+  update();
   render();
   animate(step);
 };
@@ -111,6 +161,11 @@ var render = function() {
   computer.render();
   ball.render();
   ball.move(); 
+};
+
+var update = function() {
+  computer.update(ball);
+  ball.update(player,computer);
 };
 
 window.onload = function() {
