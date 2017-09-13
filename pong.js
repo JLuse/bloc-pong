@@ -24,6 +24,8 @@ Paddle.prototype.move = function(dy) {
 Paddle.prototype.render = function() {
   c.fillStyle = 'white';
   c.fillRect(this.x, this.y, this.width, this.height);
+  c.fillText(player.score, 25, 40);
+  c.fillText(computer.score, 575, 40);
 };
 
 // the ball
@@ -90,21 +92,13 @@ Ball.prototype.render = function() {
 Ball.prototype.update = function(player, computer) {
   // trying to reset the ball
   if (this.x < 0) {
+    computer.score++;
     this.reset();
   }
   else if (this.x > canvas.width) {
+    player.score++;
     this.reset();
   }
-
-  // if(rightScored || leftScored) {
-  //   if (leftScored) {
-  //     rightPaddle.score++;
-  //   }
-  //   if (rightScored) {
-  //     rightPaddle.score++;
-  //   }
-  //   this.reset();
-  // }
 };
 
 var player = new Paddle(50, 100, 10, 100);
@@ -123,7 +117,6 @@ computer.update = function(ball) {
   // sets the difficulty, eventually want to randomize
   computer.move(diff * 0.5);
 };
-// var computer = new Computer();
 
 var ball = new Ball(canvas.width / 2, canvas.height / 2);
 
