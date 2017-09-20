@@ -24,8 +24,6 @@ Paddle.prototype.move = function(dy) {
 Paddle.prototype.render = function() {
   c.fillStyle = 'white';
   c.fillRect(this.x, this.y, this.width, this.height);
-  c.fillText(player.score, 25, 40);
-  c.fillText(computer.score, 575, 40);
 };
 
 // the ball
@@ -87,22 +85,32 @@ Ball.prototype.render = function() {
   c.fillStyle = 'white';
   c.arc(this.x, this.y, this.radius, 0 , Math.PI * 2, false)
   c.fill();
+  c.font='25px verdana';
+  c.fillText(playerScore, 20, 40);
+  c.fillText(computerScore, 565, 40);
 };
 
 Ball.prototype.update = function(player, computer) {
-  // trying to reset the ball
   if (this.x < 0) {
-    computer.score++;
+    computerScore++;
     this.reset();
   }
   else if (this.x > canvas.width) {
-    player.score++;
+    playerScore++;
     this.reset();
+  }
+
+  if (playerScore >= 11 || computerScore >= 11) {
+    playerScore = 0;
+    computerScore = 0;
   }
 };
 
-var player = new Paddle(50, 100, 10, 100);
-var computer = new Paddle(550, 110, 10, 100);
+var player = new Paddle(45, 100, 10, 100);
+var computer = new Paddle(546, 110, 10, 100);
+
+var playerScore = player.score;
+var computerScore = computer.score;
 
 computer.update = function(ball) {
   var ball_y_position = ball.y;
