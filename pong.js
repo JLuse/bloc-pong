@@ -48,6 +48,27 @@ function Ball(x, y) {
     this.resetPostion();
     this.resetSpeed();
   };
+
+  this.stop = function() {
+    this.resetPostion();
+    this.x_speed = 0;
+    this.y_speed = 0;
+
+    if (playerScore >= 1) {
+      winner.textContent = "Congrats Player 1 you win!";
+    } else if (computerScore >= 1) {
+      winner.textContent = "Congrats Player 2 you win!";
+    };
+
+    winner.hidden = false;
+    restartButton.hidden = false;
+
+    restartButton.addEventListener("click", function(){
+      restartButton.hidden = true;
+      winner.hidden = true;
+      ball.reset();
+    });
+  };
 }
 
 Ball.prototype.move = function() {
@@ -100,7 +121,8 @@ Ball.prototype.update = function(player, computer) {
     this.reset();
   }
 
-  if (playerScore >= 11 || computerScore >= 11) {
+  if (playerScore >= 1 || computerScore >= 1) {
+    this.stop();
     playerScore = 0;
     computerScore = 0;
   }
@@ -111,6 +133,9 @@ var computer = new Paddle(546, 110, 10, 100);
 
 var playerScore = player.score;
 var computerScore = computer.score;
+
+var restartButton = document.getElementById('restart');
+var winner = document.getElementById('winner');
 
 computer.update = function(ball) {
   var ball_y_position = ball.y;
