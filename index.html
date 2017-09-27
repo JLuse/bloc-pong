@@ -8,15 +8,20 @@
       text-align: center;
     }
 
+    .canvasContainer {
+      position: relative;
+    }
+    
     canvas {
       border: 1px solid black;
       margin: auto;
       display: block;
     }
 
+
     button {
       position: absolute;
-      top: 42%;
+      top: 40%;
       left: 45%;
       padding: 15px 32px;
       font-size: 16px;
@@ -28,8 +33,10 @@
   <div id="container">
     <h1>Bloc Pong</h1>
     <div id="winner" hidden></div>
-    <canvas id="pongCanvas" width="600" height="400"></canvas>
-    <button id ="restart" type="button" hidden>Restart</button>
+      <div class="canvasContainer" width="600" height="400">
+        <canvas id="pongCanvas" width="600" height="400"></canvas>
+        <button id ="restart" type="button" hidden>Restart</button>
+      </div>
   </div>
   <script src="pong.js"></script>
 </body>

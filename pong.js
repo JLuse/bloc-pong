@@ -54,9 +54,9 @@ function Ball(x, y) {
     this.x_speed = 0;
     this.y_speed = 0;
 
-    if (playerScore >= 1) {
+    if (playerScore >= 11) {
       winner.textContent = "Congrats Player 1 you win!";
-    } else if (computerScore >= 1) {
+    } else if (computerScore >= 11) {
       winner.textContent = "Congrats Player 2 you win!";
     };
 
@@ -121,7 +121,7 @@ Ball.prototype.update = function(player, computer) {
     this.reset();
   }
 
-  if (playerScore >= 1 || computerScore >= 1) {
+  if (playerScore >= 11 || computerScore >= 11) {
     this.stop();
     playerScore = 0;
     computerScore = 0;
